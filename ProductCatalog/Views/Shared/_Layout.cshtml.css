@@ -1,48 +1,124 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* ---------- General ---------- */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+html {
+    font-size: 14px;
+}
+
+body {
+    background-color: #f4f7fb;
+    color: #212529;
+    min-height: 100vh;
 }
 
 a {
-  color: #0077cc;
+    text-decoration: none;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+main {
+    min-height: calc(100vh - 140px);
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* ---------- Navbar ---------- */
+
+.navbar {
+    padding: .9rem 0;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+.navbar-brand {
+    font-size: 1.35rem;
+    font-weight: 700;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.nav-link {
+    font-weight: 500;
+    transition: .25s;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    .nav-link:hover {
+        opacity: .8;
+    }
+
+/* ---------- Cards ---------- */
+
+.card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: .25s;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    .card:hover {
+        box-shadow: 0 12px 30px rgba(0,0,0,.08);
+    }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-danger {
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* ---------- Forms ---------- */
+
+.form-control,
+.form-select,
+.input-group-text {
+    border-radius: 10px;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
+
+/* ---------- Tables ---------- */
+
+.table {
+    margin-bottom: 0;
+}
+
+    .table thead th {
+        font-weight: 600;
+        border-bottom-width: 1px;
+    }
+
+    .table tbody tr {
+        transition: background-color .2s;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* ---------- Badges ---------- */
+
+.badge {
+    padding: .55rem .8rem;
+    border-radius: 50rem;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    font-size: .9rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:768px) {
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
 }

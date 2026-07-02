@@ -1,4 +1,6 @@
-﻿public interface IRedisService
+﻿namespace ProductCatalog.Services.Interfaces;
+
+public interface IRedisService
 {
     Task<long> IncrementAsync(string key);
 

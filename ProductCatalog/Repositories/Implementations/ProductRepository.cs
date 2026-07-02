@@ -35,11 +35,11 @@ public class ProductRepository : IProductRepository
         await _context.Products.AddAsync(product);
     }
 
-    public Task UpdateAsync(Product product)
-    {
-        _context.Products.Update(product);
-        return Task.CompletedTask;
-    }
+    //public Task UpdateAsync(Product product)
+    //{
+    //    _context.Products.Update(product);
+    //    return Task.CompletedTask;
+    //}
 
     public async Task DeleteAsync(int id)
     {

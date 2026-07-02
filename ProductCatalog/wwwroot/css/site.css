@@ -1,31 +1,1030 @@
-html {
-  font-size: 14px;
+/* ===========================================================
+   PRODUCT CATALOG
+   Modern Dark UI
+   =========================================================== */
+
+/* -----------------------------
+   RESET
+----------------------------- */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
+html {
     font-size: 16px;
-  }
+    scroll-behavior: smooth;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* -----------------------------
+   COLORS
+----------------------------- */
+
+:root {
+    --primary: #7C82FF;
+    --primary-hover: #696FF7;
+    --background: #0F172A;
+    --surface: #1E293B;
+    --surface-2: #273449;
+    --sidebar: #111827;
+    --sidebar-hover: #1F2937;
+    --border: #334155;
+    --text: #F8FAFC;
+    --text-light: #94A3B8;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --radius: 18px;
+    --shadow-sm: 0 4px 15px rgba(0,0,0,.20);
+    --shadow: 0 15px 40px rgba(0,0,0,.35);
+    --transition: .25s ease;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+/* -----------------------------
+   BODY
+----------------------------- */
 
 body {
-  margin-bottom: 60px;
+    font-family: "Inter",sans-serif;
+    background: var(--background);
+    color: var(--text);
+    overflow-x: hidden;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.text-muted {
+    color: var(--text-light) !important;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+/* -----------------------------
+   LAYOUT
+----------------------------- */
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.content {
+    margin-left: 270px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    padding: 35px;
+}
+/* -----------------------------
+   SIDEBAR
+----------------------------- */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 270px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+}
+
+.logo h5 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.logo small {
+    color: var(--text-light);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 18px;
+        border-radius: 14px;
+        color: #CBD5E1;
+        transition: var(--transition);
+    }
+
+        .menu a:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+        .menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+.version {
+    color: #94A3B8;
+    text-align: center;
+}
+/* -----------------------------
+   TOPBAR
+----------------------------- */
+
+.topbar {
+    height: 85px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 35px;
+    box-shadow: var(--shadow-sm);
+}
+
+.avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+/* ===========================================================
+   CARDS
+   =========================================================== */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: all .3s ease;
+    overflow: hidden;
+}
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+    }
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.75rem;
+}
+
+.card-footer {
+    background: transparent;
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+}
+
+
+/* ===========================================================
+   BUTTONS
+   =========================================================== */
+
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: .75rem 1.3rem;
+    transition: .25s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+.btn-light {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+    .btn-light:hover {
+        background: #334155;
+        color: white;
+    }
+
+.btn-success {
+    border: none;
+}
+
+.btn-danger {
+    border: none;
+}
+
+.btn-warning {
+    border: none;
+}
+
+
+/* ===========================================================
+   FORMS
+   =========================================================== */
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: .65rem;
+    color: var(--text);
+}
+
+.form-control {
+    height: 48px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: white;
+    transition: .25s;
+}
+
+textarea.form-control {
+    height: auto;
+    min-height: 140px;
+    resize: vertical;
+}
+
+.form-control::placeholder {
+    color: var(--text-light);
+}
+
+.form-control:focus {
+    background: var(--surface-2);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 .2rem rgba(124,130,255,.18);
+}
+
+.input-group-text {
+    background: var(--surface-2);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+}
+
+
+/* ===========================================================
+   TABLES
+   =========================================================== */
+
+.table {
+    color: var(--text);
+    margin-bottom: 0;
+}
+
+    .table thead {
+        background: var(--surface-2);
+    }
+
+        .table thead th {
+            border: none;
+            color: var(--text-light);
+            font-weight: 600;
+            padding: 18px;
+        }
+
+    .table tbody td {
+        border-color: var(--border);
+        padding: 18px;
+        vertical-align: middle;
+    }
+
+.table-hover tbody tr {
+    transition: .2s;
+}
+
+    .table-hover tbody tr:hover {
+        background: rgba(255,255,255,.03);
+    }
+
+
+/* ===========================================================
+   BADGES
+   =========================================================== */
+
+.badge {
+    border-radius: 999px;
+    padding: .6rem .85rem;
+    font-weight: 600;
+}
+
+.bg-success-subtle {
+    background: rgba(34,197,94,.15) !important;
+}
+
+.bg-warning-subtle {
+    background: rgba(245,158,11,.18) !important;
+}
+
+.bg-danger-subtle {
+    background: rgba(239,68,68,.18) !important;
+}
+
+
+/* ===========================================================
+   PRODUCT CARD
+   =========================================================== */
+
+.product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: .3s;
+}
+
+    .product-card:hover {
+        transform: translateY(-8px);
+    }
+
+.product-image {
+    width: 95px;
+    height: 95px;
+    border-radius: 24px;
+    margin: auto;
+    background: var(--surface-2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    font-size: 40px;
+}
+
+.product-card hr {
+    border-color: var(--border);
+}
+
+.product-card .card-footer {
+    border-top: 1px solid var(--border);
+}
+
+.product-card .btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* ===========================================================
+   DETAILS
+   =========================================================== */
+
+.product-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 24px;
+    background: var(--surface-2);
+    color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 42px;
+    box-shadow: var(--shadow-sm);
+}
+
+.detail-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    transition: .25s;
+    height: 100%;
+}
+
+    .detail-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+
+/* ===========================================================
+   EMPTY STATES
+   =========================================================== */
+
+.empty-state {
+    text-align: center;
+    padding: 70px 20px;
+}
+
+    .empty-state i {
+        font-size: 70px;
+        color: var(--primary);
+        opacity: .85;
+    }
+
+    .empty-state h3 {
+        margin-top: 20px;
+        font-weight: 700;
+    }
+
+    .empty-state p {
+        color: var(--text-light);
+        margin: 15px 0 25px;
+    }
+
+
+/* ===========================================================
+   HR
+   =========================================================== */
+
+hr {
+    border-color: var(--border);
+    opacity: 1;
+}
+
+
+/* ===========================================================
+   ANIMATIONS
+   =========================================================== */
+
+.card,
+.btn,
+.form-control,
+.detail-card,
+.product-card {
+    transition: all .25s ease;
+}
+
+    .btn:active {
+        transform: scale(.98);
+    }
+
+    .form-control:hover {
+        border-color: #475569;
+    }
+
+.product-image {
+    transition: .3s;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.08);
+}
+
+
+/* ===========================================================
+   SCROLLBAR
+   =========================================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0F172A;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 20px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #64748B;
+    }
+
+
+/* ===========================================================
+   UTILITIES
+   =========================================================== */
+
+.shadow-soft {
+    box-shadow: var(--shadow);
+}
+
+.rounded-xl {
+    border-radius: 22px;
+}
+
+.surface {
+    background: var(--surface);
+}
+
+.surface-2 {
+    background: var(--surface-2);
+}
+
+.border-soft {
+    border: 1px solid var(--border);
+}
+
+.text-light-custom {
+    color: var(--text-light);
+}
+
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+
+@media (max-width:992px) {
+
+    .sidebar {
+        width: 85px;
+        padding: 25px 12px;
+    }
+
+    .content {
+        margin-left: 85px;
+    }
+
+    .logo h5,
+    .logo small,
+    .menu span,
+    .version {
+        display: none;
+    }
+
+    .menu a {
+        justify-content: center;
+        padding: 14px;
+    }
+
+    .logo {
+        justify-content: center;
+    }
+}
+
+
+@media (max-width:768px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .topbar {
+        height: auto;
+        padding: 18px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .page-content {
+        padding: 20px;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
+
+/* ===========================================================
+   SELECTION
+   =========================================================== */
+
+::selection {
+    background: var(--primary);
+    color: white;
+}
+/* ===========================================================
+   PREMIUM FINISH
+   =========================================================== */
+
+
+/* ===========================
+   Bootstrap Color Overrides
+=========================== */
+
+.bg-primary{
+
+    background:var(--primary)!important;
+
+}
+
+.bg-success{
+
+    background:var(--success)!important;
+
+}
+
+.bg-warning{
+
+    background:var(--warning)!important;
+
+}
+
+.bg-danger{
+
+    background:var(--danger)!important;
+
+}
+
+.text-primary{
+
+    color:var(--primary)!important;
+
+}
+
+
+/* ===========================
+   Card Headers
+=========================== */
+
+.card-header{
+
+    background:transparent;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4{
+
+    margin-bottom:0;
+
+}
+
+
+/* ===========================
+   Buttons Hover
+=========================== */
+
+.btn{
+
+    transition:all .25s ease;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn i{
+
+    transition:.25s;
+
+}
+
+.btn:hover i{
+
+    transform:scale(1.08);
+
+}
+
+
+/* ===========================
+   Product Actions
+=========================== */
+
+.product-card .btn{
+
+    background:var(--surface-2);
+
+}
+
+.product-card .btn:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.product-card .btn-danger:hover{
+
+    background:var(--danger);
+
+}
+
+.product-card .btn-warning:hover{
+
+    background:var(--warning);
+
+}
+
+.product-card .btn-info:hover{
+
+    background:#0EA5E9;
+
+}
+
+
+/* ===========================
+   Tables
+=========================== */
+
+.table{
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+}
+
+.table tbody tr{
+
+    transition:.2s;
+
+}
+
+.table tbody tr:hover{
+
+    background:rgba(255,255,255,.04);
+
+}
+
+
+/* ===========================
+   Forms
+=========================== */
+
+.form-control:disabled{
+
+    background:#374151;
+
+    color:#9CA3AF;
+
+}
+
+.form-control:read-only{
+
+    background:#273449;
+
+}
+
+
+/* ===========================
+   Input Groups
+=========================== */
+
+.input-group-text{
+
+    border-radius:12px 0 0 12px;
+
+}
+
+.input-group .form-control{
+
+    border-radius:0 12px 12px 0;
+
+}
+
+
+/* ===========================
+   Alerts
+=========================== */
+
+.alert{
+
+    border:none;
+
+    border-radius:16px;
+
+}
+
+.alert-success{
+
+    background:rgba(34,197,94,.12);
+
+    color:#4ADE80;
+
+}
+
+.alert-warning{
+
+    background:rgba(245,158,11,.12);
+
+    color:#FBBF24;
+
+}
+
+.alert-danger{
+
+    background:rgba(239,68,68,.12);
+
+    color:#F87171;
+
+}
+
+
+/* ===========================
+   Dropdown
+=========================== */
+
+.dropdown-menu{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+}
+
+.dropdown-item{
+
+    color:var(--text);
+
+}
+
+.dropdown-item:hover{
+
+    background:var(--surface-2);
+
+    color:white;
+
+}
+
+
+/* ===========================
+   Modal
+=========================== */
+
+.modal-content{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+}
+
+.modal-header{
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.modal-footer{
+
+    border-top:1px solid var(--border);
+
+}
+
+
+/* ===========================
+   Focus Ring
+=========================== */
+
+button:focus,
+.btn:focus,
+.form-control:focus{
+
+    outline:none;
+
+}
+
+
+/* ===========================
+   Loading
+=========================== */
+
+.loading{
+
+    animation:pulse 1.4s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        opacity:.4;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.4;
+
+    }
+
+}
+
+
+/* ===========================
+   Fade Animation
+=========================== */
+
+.fade-up{
+
+    animation:fadeUp .5s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+
+/* ===========================
+   Glass Effect
+=========================== */
+
+.glass{
+
+    backdrop-filter:blur(12px);
+
+    background:rgba(30,41,59,.75);
+
+}
+
+
+/* ===========================
+   Smooth Icons
+=========================== */
+
+.bi{
+
+    vertical-align:-.1em;
+
+}
+
+
+/* ===========================
+   Footer
+=========================== */
+
+footer{
+
+    color:var(--text-light);
+
+    padding:30px;
+
+    text-align:center;
+
 }
