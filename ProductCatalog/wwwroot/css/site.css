@@ -1028,3 +1028,76 @@ footer{
     text-align:center;
 
 }
+.category-item{
+
+    background:transparent;
+
+    border-bottom:1px solid var(--border);
+
+    padding:22px 26px;
+
+    transition:.25s;
+
+}
+
+.category-item:hover{
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.category-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:14px;
+
+    background:var(--surface-2);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:var(--primary);
+
+    font-size:22px;
+
+}
+/* Category Details Table */
+
+.table {
+    color: var(--text);
+    background: transparent;
+}
+
+    .table thead {
+        background: var(--surface-2);
+    }
+
+        .table thead th {
+            color: var(--text-light);
+            background: var(--surface-2);
+            border-color: var(--border);
+        }
+
+    .table tbody {
+        background: transparent;
+    }
+
+        .table tbody tr {
+            background: transparent;
+        }
+
+        .table tbody td {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+.table-hover tbody tr:hover td {
+    background: rgba(255,255,255,.04);
+}

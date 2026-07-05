@@ -74,7 +74,69 @@
                 </div>
 
                 <hr />
+                <h5 class="mb-3">
+                    Products in this Category
+                </h5>
 
+                @if (Model.Products.Any())
+                {
+                    <div class="table-responsive mb-4">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead >
+
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th width="120"></th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var product in Model.Products)
+                                {
+                                    <tr>
+
+                                        <td>@product.Name</td>
+
+                                        <td>$@product.Price</td>
+
+                                        <td>@product.Stock</td>
+
+                                        <td>
+
+                                            <a asp-controller="Products"
+                                               asp-action="Details"
+                                               asp-route-id="@product.Id"
+                                               class="btn btn-sm btn-outline-primary">
+
+                                                View
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info mb-4">
+
+                        This category doesn't contain any products.
+
+                    </div>
+                }
                 <div class="d-flex justify-content-between">
 
                     <a asp-action="Index"

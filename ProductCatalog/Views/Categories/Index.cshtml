@@ -88,105 +88,116 @@
 }
 else
 {
-    <div class="row g-4">
+    <div class="card">
 
-        @foreach (var item in Model)
-        {
-            <div class="col-xl-4 col-lg-6">
+        <div class="list-group list-group-flush">
 
-                <div class="card product-card h-100">
+            @foreach (var item in Model)
+            {
+                <div class="list-group-item category-item">
 
-                    <div class="card-body">
+                    <div class="row align-items-center">
 
-                        <div class="text-center">
+                        <!-- Icon + Name -->
 
-                            <div class="product-image">
+                        <div class="col-md-5">
 
-                                <i class="bi bi-tags-fill"></i>
+                            <div class="d-flex align-items-center">
+
+                                <div class="category-icon">
+
+                                    <i class="bi bi-tags-fill"></i>
+
+                                </div>
+
+                                <div class="ms-3">
+
+                                    <h5 class="fw-bold mb-1">
+
+                                        @item.Name
+
+                                    </h5>
+
+                                    <p class="category-description mb-0">
+
+                                        @(string.IsNullOrWhiteSpace(item.Description)
+                                            ? "No description available."
+                                            : item.Description)
+
+                                    </p>
+
+                                </div>
 
                             </div>
 
-                            <h5 class="fw-bold mt-4">
-
-                                @item.Name
-
-                            </h5>
-
-                            <p class="text-muted small mt-2">
-
-                                @(string.IsNullOrWhiteSpace(item.Description)
-                                    ? "No description available."
-                                    : item.Description)
-
-                            </p>
-
                         </div>
 
-                        <hr />
+                        <!-- Products Count -->
 
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-3 text-center">
 
-                            <span class="text-muted">
+                            <span class="text-muted d-block mb-1">
 
                                 Products
 
                             </span>
 
-                            <span class="badge bg-primary">
+                            <span class="badge bg-primary px-3 py-2">
 
-                                @item.ProductsCount
+                                @item.ProductsCount Products
 
                             </span>
 
                         </div>
 
-                    </div>
+                        <!-- Actions -->
 
-                    <div class="card-footer bg-white border-0">
+                        <div class="col-md-4">
 
-                        <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-end gap-2">
 
-                            <a asp-action="Details"
-                               asp-route-id="@item.Id"
-                               class="btn btn-light"
-                               title="Details">
+                                <a asp-action="Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-light">
 
-                                <i class="bi bi-eye"></i>
+                                    <i class="bi bi-eye"></i>
 
-                            </a>
+                                </a>
 
-                            <a asp-action="Edit"
-                               asp-route-id="@item.Id"
-                               class="btn btn-light"
-                               title="Edit">
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-light">
 
-                                <i class="bi bi-pencil"></i>
+                                    <i class="bi bi-pencil"></i>
 
-                            </a>
+                                </a>
 
-                            <form asp-action="Delete"
-                                  asp-route-id="@item.Id"
-                                  method="post">
+                                <form asp-action="Delete"
+                                      asp-route-id="@item.Id"
+                                      method="post">
 
-                                <button type="submit"
-                                        class="btn btn-light text-danger"
-                                        onclick="return confirm('Delete this category?')"
-                                        title="Delete">
+                                    <button class="btn btn-light text-danger"
+                                            onclick="return confirm('Delete this category?')">
 
-                                    <i class="bi bi-trash"></i>
+                                        <i class="bi bi-trash"></i>
 
-                                </button>
+                                    </button>
 
-                            </form>
+                                </form>
+
+                            </div>
 
                         </div>
 
                     </div>
 
                 </div>
+            }
 
-            </div>
-        }
+        </div>
+
+    </div>
+}
 
     </div>
 }

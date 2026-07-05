@@ -23,7 +23,17 @@ public static class CategoryMappings
             Id = category.Id,
             Name = category.Name,
             Description = category.Description,
-            ProductsCount = category.Products.Count
+            ProductsCount = category.Products.Count,
+
+            Products = category.Products
+                .Select(p => new CategoryProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Stock = p.Stock
+                })
+                .ToList()
         };
     }
 

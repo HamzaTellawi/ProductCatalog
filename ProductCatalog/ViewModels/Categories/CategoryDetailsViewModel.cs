@@ -9,4 +9,5 @@ public class CategoryDetailsViewModel
     public string? Description { get; set; }
 
     public int ProductsCount { get; set; }
+    public List<CategoryProductViewModel> Products { get; set; } = [];
 }
