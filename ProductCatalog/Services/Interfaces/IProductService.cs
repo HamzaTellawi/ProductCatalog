@@ -6,7 +6,6 @@ namespace ProductCatalog.Services.Interfaces;
 public interface IProductService
 {
     Task<List<ProductViewModel>> GetAllAsync();
-    Task<Product?> GetByIdAsync(int id);
 
     Task AddAsync(CreateProductViewModel model);
     Task<EditProductViewModel?> GetForEditAsync(int id);
@@ -14,5 +13,6 @@ public interface IProductService
     Task UpdateAsync(EditProductViewModel model);
 
     Task<ProductDetailsViewModel?> GetDetailsAsync(int id);
+    Task<CreateProductViewModel> GetCreateModelAsync();
     Task DeleteAsync(int id);
 }

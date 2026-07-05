@@ -1,11 +1,11 @@
-﻿using ProductCatalog.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using ProductCatalog.Caching.Interfaces;
+using ProductCatalog.Constants;
+using ProductCatalog.Mappings;
 using ProductCatalog.Repositories.Interfaces;
 using ProductCatalog.Services.Interfaces;
 using ProductCatalog.ViewModels.Products;
-using ProductCatalog.Mappings;
-using ProductCatalog.Caching.Interfaces;
-using ProductCatalog.Constants;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace ProductCatalog.Services.Implementations;
@@ -13,12 +13,18 @@ namespace ProductCatalog.Services.Implementations;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _repository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly ICacheService _cacheService;
     private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IProductRepository repository, ICacheService cacheService, ILogger<ProductService> logger)
+    public ProductService(
+        IProductRepository repository,
+        ICategoryRepository categoryRepository,
+        ICacheService cacheService,
+        ILogger<ProductService> logger)
     {
         _repository = repository;
+        _categoryRepository = categoryRepository;
         _cacheService = cacheService;
         _logger = logger;
     }
@@ -61,9 +67,12 @@ public class ProductService : IProductService
         return result;
     }
 
-    public async Task<Product?> GetByIdAsync(int id)
+    public async Task<CreateProductViewModel> GetCreateModelAsync()
     {
-        return await _repository.GetByIdAsync(id);
+        return new CreateProductViewModel
+        {
+            Categories = await GetCategoriesAsync()
+        };
     }
 
     public async Task AddAsync(CreateProductViewModel model)
@@ -72,6 +81,7 @@ public class ProductService : IProductService
 
         await _repository.AddAsync(product);
         await _repository.SaveChangesAsync();
+
         await _cacheService.RemoveAsync(CacheKeys.Products);
     }
 
@@ -79,10 +89,16 @@ public class ProductService : IProductService
     {
         var product = await _repository.GetTrackedByIdAsync(id);
 
-        return product?.ToEditViewModel();
+        if (product is null)
+            return null;
+
+        var model = product.ToEditViewModel();
+
+        model.Categories = await GetCategoriesAsync();
+
+        return model;
     }
 
-    
     public async Task UpdateAsync(EditProductViewModel model)
     {
         var product = await _repository.GetTrackedByIdAsync(model.Id);
@@ -93,19 +109,35 @@ public class ProductService : IProductService
         model.UpdateEntity(product);
 
         await _repository.SaveChangesAsync();
+
         await _cacheService.RemoveAsync(CacheKeys.Products);
+    }
+
+    public async Task<ProductDetailsViewModel?> GetDetailsAsync(int id)
+    {
+        var product = await _repository.GetByIdAsync(id);
+
+        return product?.ToDetailsViewModel();
     }
 
     public async Task DeleteAsync(int id)
     {
         await _repository.DeleteAsync(id);
         await _repository.SaveChangesAsync();
+
         await _cacheService.RemoveAsync(CacheKeys.Products);
     }
-    public async Task<ProductDetailsViewModel?> GetDetailsAsync(int id)
-    {
-        var product = await _repository.GetByIdAsync(id);
 
-        return product?.ToDetailsViewModel();
+    private async Task<List<SelectListItem>> GetCategoriesAsync()
+    {
+        var categories = await _categoryRepository.GetAllAsync();
+
+        return categories
+            .Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            })
+            .ToList();
     }
 }

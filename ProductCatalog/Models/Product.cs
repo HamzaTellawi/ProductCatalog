@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ProductCatalog.Models;
+
 public class Product
 {
     public int Id { get; set; }
@@ -17,4 +18,10 @@ public class Product
 
     [Range(0, 10000)]
     public int Stock { get; set; }
+
+    // Foreign Key
+    [Display(Name = "Category")]
+    public int? CategoryId { get; set; }
+    // Navigation Property
+    public Category? Category { get; set; }
 }

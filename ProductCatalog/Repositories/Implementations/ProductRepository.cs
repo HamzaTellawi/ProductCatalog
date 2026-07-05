@@ -16,30 +16,30 @@ public class ProductRepository : IProductRepository
 
     public async Task<List<Product>> GetAllAsync()
     {
-        return await _context.Products.AsNoTracking().ToListAsync();
+        return await _context.Products
+            .Include(x => x.Category)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<Product?> GetByIdAsync(int id)
     {
         return await _context.Products
+            .Include(x => x.Category)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+
     public async Task<Product?> GetTrackedByIdAsync(int id)
     {
         return await _context.Products
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
     public async Task AddAsync(Product product)
     {
         await _context.Products.AddAsync(product);
     }
-
-    //public Task UpdateAsync(Product product)
-    //{
-    //    _context.Products.Update(product);
-    //    return Task.CompletedTask;
-    //}
 
     public async Task DeleteAsync(int id)
     {

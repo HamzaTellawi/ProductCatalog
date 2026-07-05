@@ -10,8 +10,6 @@ public interface IProductRepository
     Task<Product?> GetTrackedByIdAsync(int id);
     Task AddAsync(Product product);
 
-    //Task UpdateAsync(Product product);
-
     Task DeleteAsync(int id);
 
     Task SaveChangesAsync();

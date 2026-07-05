@@ -12,7 +12,8 @@ public static class ProductMappings
             Id = product.Id,
             Name = product.Name,
             Price = product.Price,
-            Stock = product.Stock
+            Stock = product.Stock,
+            CategoryName = product.Category?.Name
         };
     }
 
@@ -24,7 +25,8 @@ public static class ProductMappings
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
-            Stock = product.Stock
+            Stock = product.Stock,
+            CategoryId = product.CategoryId
         };
     }
 
@@ -35,7 +37,8 @@ public static class ProductMappings
             Name = model.Name,
             Description = model.Description,
             Price = model.Price,
-            Stock = model.Stock
+            Stock = model.Stock,
+            CategoryId = model.CategoryId
         };
     }
 
@@ -45,16 +48,19 @@ public static class ProductMappings
         product.Description = model.Description;
         product.Price = model.Price;
         product.Stock = model.Stock;
+        product.CategoryId = model.CategoryId;
     }
 
     public static ProductDetailsViewModel ToDetailsViewModel(this Product product)
     {
         return new ProductDetailsViewModel
         {
+            Id = product.Id,
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
-            Stock = product.Stock
+            Stock = product.Stock,
+            CategoryName = product.Category?.Name
         };
     }
 }

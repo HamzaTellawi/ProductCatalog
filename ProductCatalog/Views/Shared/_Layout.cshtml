@@ -52,6 +52,8 @@
 
                 <div class="menu mt-5">
 
+                    <!-- Products -->
+
                     <a asp-controller="Products"
                        asp-action="Index">
 
@@ -67,6 +69,28 @@
                         <i class="bi bi-plus-circle-fill"></i>
 
                         <span>Add Product</span>
+
+                    </a>
+
+                    <hr class="my-3 text-secondary" />
+
+                    <!-- Categories -->
+
+                    <a asp-controller="Categories"
+                       asp-action="Index">
+
+                        <i class="bi bi-tags-fill"></i>
+
+                        <span>Categories</span>
+
+                    </a>
+
+                    <a asp-controller="Categories"
+                       asp-action="Create">
+
+                        <i class="bi bi-folder-plus"></i>
+
+                        <span>Add Category</span>
 
                     </a>
 

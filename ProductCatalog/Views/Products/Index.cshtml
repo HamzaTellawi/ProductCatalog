@@ -89,6 +89,27 @@ else
 
                             </h5>
 
+                            @if (!string.IsNullOrWhiteSpace(item.CategoryName))
+                            {
+                                <span class="badge bg-info-subtle text-info mt-2">
+
+                                    <i class="bi bi-tag-fill me-1"></i>
+
+                                    @item.CategoryName
+
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary-subtle text-secondary mt-2">
+
+                                    <i class="bi bi-question-circle me-1"></i>
+
+                                    No Category
+
+                                </span>
+                            }
+
                         </div>
 
                         <hr />

@@ -19,16 +19,24 @@ public class ProductsController : Controller
 
         return View(products);
     }
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var model = await _productService.GetCreateModelAsync();
+
+        return View(model);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(CreateProductViewModel model)
     {
         if (!ModelState.IsValid)
+        {
+            var createModel = await _productService.GetCreateModelAsync();
+
+            model.Categories = createModel.Categories;
+
             return View(model);
+        }
 
         await _productService.AddAsync(model);
 
@@ -49,9 +57,19 @@ public class ProductsController : Controller
     public async Task<IActionResult> Edit(EditProductViewModel model)
     {
         if (!ModelState.IsValid)
+        {
+            var editModel = await _productService.GetForEditAsync(model.Id);
+
+            if (editModel is null)
+                return NotFound();
+
+            model.Categories = editModel.Categories;
+
             return View(model);
+        }
 
         await _productService.UpdateAsync(model);
+
         return RedirectToAction(nameof(Index));
     }
 

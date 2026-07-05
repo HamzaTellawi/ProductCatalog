@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace ProductCatalog.ViewModels.Products;
 
 public class EditProductViewModel
@@ -18,4 +18,10 @@ public class EditProductViewModel
 
     [Range(0, 10000)]
     public int Stock { get; set; }
+    [Display(Name = "Category")]
+    [Required(ErrorMessage = "Please select a category.")]
+    public int? CategoryId { get; set; }
+
+    public IEnumerable<SelectListItem> Categories { get; set; }
+        = Enumerable.Empty<SelectListItem>();
 }
