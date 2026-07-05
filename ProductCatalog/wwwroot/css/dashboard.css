@@ -1,0 +1,201 @@
+﻿/* ==========================================================
+   Dashboard
+   ========================================================== */
+
+/* ---------- Header ---------- */
+
+.dashboard-header {
+    margin-bottom: 2.5rem;
+}
+
+    .dashboard-header h1 {
+        color: #f8fafc;
+        font-size: 2.6rem;
+        font-weight: 700;
+    }
+
+    .dashboard-header p {
+        color: #94a3b8;
+        font-size: 1rem;
+    }
+
+/* ---------- Statistics Cards ---------- */
+
+.dashboard-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 18px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all .3s ease;
+    height: 100%;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0,0,0,.25);
+        border-color: #3b82f6;
+    }
+
+.card-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+    .card-content h2 {
+        margin: 0;
+        color: white;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .card-content span {
+        color: #94a3b8;
+        font-size: .95rem;
+    }
+
+/* ---------- Chart Cards ---------- */
+
+.chart-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 18px;
+    padding: 1.5rem;
+    height: 100%;
+}
+
+    .chart-card h5 {
+        color: #f8fafc;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+    }
+
+.chart-container {
+    position: relative;
+    height: 350px;
+}
+
+/* ---------- Table Card ---------- */
+
+/* ==========================================
+   Table
+   ========================================== */
+
+.table-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.table-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #334155;
+}
+
+    .table-card-header h5 {
+        margin: 0;
+        color: #f8fafc;
+        font-weight: 600;
+    }
+
+/* إزالة لون Bootstrap الأبيض */
+
+.table-card .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #f8fafc;
+    --bs-table-border-color: #334155;
+    --bs-table-hover-bg: rgba(255,255,255,.04);
+    --bs-table-hover-color: #ffffff;
+    margin-bottom: 0;
+}
+
+    .table-card .table > :not(caption) > * > * {
+        background: transparent !important;
+        color: #f8fafc !important;
+        border-color: #334155 !important;
+        padding: 1rem 1.25rem;
+    }
+
+.table-card thead th {
+    color: #94a3b8 !important;
+    font-weight: 600;
+    border-bottom: 1px solid #334155 !important;
+}
+
+.table-card tbody tr {
+    transition: .25s;
+}
+
+    .table-card tbody tr:hover {
+        background: rgba(59,130,246,.08) !important;
+    }
+
+        .table-card tbody tr:hover td {
+            color: #ffffff !important;
+        }
+
+/* ---------- Badges ---------- */
+
+.rank-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:992px) {
+
+    .dashboard-card {
+        padding: 1.2rem;
+    }
+
+    .card-content h2 {
+        font-size: 1.7rem;
+    }
+
+    .chart-container {
+        height: 280px;
+    }
+}
+
+@media (max-width:768px) {
+
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card-content {
+        align-items: center;
+    }
+
+    .table-responsive {
+        border-radius: 18px;
+    }
+}

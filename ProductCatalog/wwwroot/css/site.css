@@ -217,7 +217,7 @@ a {
 }
 
 .card-footer {
-    background: transparent;
+    background: var(--surface) !important;
     border-top: 1px solid var(--border);
     padding: 1rem 1.5rem;
 }

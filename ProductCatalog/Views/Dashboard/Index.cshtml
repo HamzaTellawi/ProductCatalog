@@ -1,0 +1,335 @@
+﻿@model ProductCatalog.ViewModels.Dashboard.DashboardViewModel
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-5">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p>Welcome back! Here's an overview of your inventory.</p>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon bg-primary">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>@Model.TotalProducts</h2>
+                    <span>Total Products</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon bg-success">
+                    <i class="bi bi-grid"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>@Model.TotalCategories</h2>
+                    <span>Total Categories</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon bg-warning">
+                    <i class="bi bi-boxes"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>@Model.TotalStock</h2>
+                    <span>Total Stock</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon bg-danger">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>@Model.AverageStock</h2>
+                    <span>Average Stock</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-lg-8">
+            <div class="chart-card">
+
+                <h5 class="mb-4">
+                    <i class="bi bi-bar-chart-fill me-2"></i>
+                    Products Per Category
+                </h5>
+
+                <div class="chart-container">
+                    <canvas id="productsChart"></canvas>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="chart-card">
+
+                <h5 class="mb-4">
+                    <i class="bi bi-pie-chart-fill me-2"></i>
+                    Category Distribution
+                </h5>
+
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Top Products -->
+    <div class="table-card">
+
+        <div class="table-card-header">
+            <h5>
+                <i class="bi bi-trophy-fill text-warning me-2"></i>
+                Top 5 Products By Stock
+            </h5>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th style="width:80px">#</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th class="text-end">Stock</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @for (int i = 0; i < Model.TopProducts.Count; i++)
+                    {
+                        <tr>
+
+                            <td>
+                                <span class="rank-badge">
+                                    @(i + 1)
+                                </span>
+                            </td>
+
+                            <td>
+                                @Model.TopProducts[i].ProductName
+                            </td>
+
+                            <td>
+                                @Model.TopProducts[i].CategoryName
+                            </td>
+
+                            <td class="text-end fw-bold">
+                                @Model.TopProducts[i].Stock
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+
+        const labels =
+            @Html.Raw(JsonSerializer.Serialize(
+                    Model.ProductsPerCategory.Select(x => x.CategoryName)));
+
+        const values =
+            @Html.Raw(JsonSerializer.Serialize(
+                    Model.ProductsPerCategory.Select(x => x.ProductCount)));
+
+        // ---------------- Bar Chart ----------------
+
+        new Chart(document.getElementById("productsChart"), {
+
+            type: "bar",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label: "Products",
+
+                    data: values,
+
+                    backgroundColor: [
+                        "#3b82f6",
+                        "#10b981",
+                        "#f59e0b",
+                        "#ef4444",
+                        "#8b5cf6",
+                        "#06b6d4",
+                        "#84cc16",
+                        "#ec4899"
+                    ],
+
+                    borderRadius: 8
+
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+
+                            color: "#cbd5e1",
+                            precision: 0
+
+                        },
+
+                        grid: {
+
+                            color: "#334155"
+
+                        }
+
+                    },
+
+                    x: {
+
+                        ticks: {
+
+                            color: "#cbd5e1"
+
+                        },
+
+                        grid: {
+
+                            display: false
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+        // ---------------- Doughnut Chart ----------------
+
+        new Chart(document.getElementById("categoryChart"), {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    data: values,
+
+                    backgroundColor: [
+                        "#3b82f6",
+                        "#10b981",
+                        "#f59e0b",
+                        "#ef4444",
+                        "#8b5cf6",
+                        "#06b6d4",
+                        "#84cc16",
+                        "#ec4899"
+                    ],
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: "70%",
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom",
+
+                        labels: {
+
+                            color: "#cbd5e1",
+
+                            padding: 20
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    </script>
+}
