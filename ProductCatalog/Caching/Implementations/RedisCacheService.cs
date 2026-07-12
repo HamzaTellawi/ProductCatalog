@@ -1,42 +1,36 @@
-﻿using System.Text.Json;
-using Microsoft.Extensions.Caching.Distributed;
-using ProductCatalog.Caching.Interfaces;
-
+﻿using StackExchange.Redis;
+using System.Text.Json;
 namespace ProductCatalog.Caching.Implementations;
 
-public class RedisCacheService : ICacheService
+public class RedisCacheService
 {
-    private readonly IDistributedCache _cache;
+    private readonly IDatabase _redis;
 
-    public RedisCacheService(IDistributedCache cache)
+    public RedisCacheService(IConnectionMultiplexer redis)
     {
-        _cache = cache;
+        _redis= redis.GetDatabase(0);
     }
 
     public async Task<T?> GetAsync<T>(string key)
     {
-        var json = await _cache.GetStringAsync(key);
+        RedisValue value = await _redis.StringGetAsync(key);
 
-        if (json is null)
+        if (!value.HasValue)
             return default;
 
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(value.ToString());
     }
 
     public async Task SetAsync<T>(string key, T value, TimeSpan expiration)
     {
-        var options = new DistributedCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = expiration
-        };
-
         var json = JsonSerializer.Serialize(value);
 
-        await _cache.SetStringAsync(key, json, options);
+        await _redis.StringSetAsync(key, json, expiration);
     }
 
     public async Task RemoveAsync(string key)
     {
-        await _cache.RemoveAsync(key);
+        await _redis.KeyDeleteAsync(key);
     }
+    
 }

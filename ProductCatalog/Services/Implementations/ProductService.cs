@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using ProductCatalog.Caching.Implementations;
 using ProductCatalog.Caching.Interfaces;
 using ProductCatalog.Constants;
 using ProductCatalog.Mappings;
@@ -14,18 +15,18 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _repository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly ICacheService _cacheService;
+    private readonly RedisCacheService _redisCashservice;
     private readonly ILogger<ProductService> _logger;
 
     public ProductService(
         IProductRepository repository,
+        RedisCacheService redisCacheService,
         ICategoryRepository categoryRepository,
-        ICacheService cacheService,
         ILogger<ProductService> logger)
     {
         _repository = repository;
+        _redisCashservice = redisCacheService;
         _categoryRepository = categoryRepository;
-        _cacheService = cacheService;
         _logger = logger;
     }
 
@@ -33,8 +34,7 @@ public class ProductService : IProductService
     {
         var stopwatch = Stopwatch.StartNew();
 
-        var cachedProducts =
-            await _cacheService.GetAsync<List<ProductViewModel>>(CacheKeys.Products);
+        var cachedProducts = await _redisCashservice.GetAsync<List<ProductViewModel>>(CacheKeys.Products);
 
         if (cachedProducts is not null)
         {
@@ -53,11 +53,10 @@ public class ProductService : IProductService
             .Select(x => x.ToViewModel())
             .ToList();
 
-        await _cacheService.SetAsync(
+        await _redisCashservice.SetAsync(
             CacheKeys.Products,
             result,
             TimeSpan.FromMinutes(5));
-
         stopwatch.Stop();
 
         _logger.LogInformation(
@@ -82,7 +81,7 @@ public class ProductService : IProductService
         await _repository.AddAsync(product);
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
     }
 
     public async Task<EditProductViewModel?> GetForEditAsync(int id)
@@ -110,7 +109,7 @@ public class ProductService : IProductService
 
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
     }
 
     public async Task<ProductDetailsViewModel?> GetDetailsAsync(int id)
@@ -125,7 +124,7 @@ public class ProductService : IProductService
         await _repository.DeleteAsync(id);
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
     }
 
     private async Task<List<SelectListItem>> GetCategoriesAsync()

@@ -6,6 +6,7 @@ using ProductCatalog.Repositories.Implementations;
 using ProductCatalog.Repositories.Interfaces;
 using ProductCatalog.Services.Implementations;
 using ProductCatalog.Services.Interfaces;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration["Redis:Connection"];
-    options.InstanceName = builder.Configuration["Redis:InstanceName"];
-});
 
-builder.Services.AddScoped<ICacheService, RedisCacheService>();
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp => 
+    ConnectionMultiplexer.Connect(builder.Configuration["Redis:Connection"])); builder.Services.AddScoped<RedisCacheService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

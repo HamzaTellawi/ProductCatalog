@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using ProductCatalog.Caching.Implementations;
 using ProductCatalog.Caching.Interfaces;
 using ProductCatalog.Constants;
 using ProductCatalog.Mappings;
+using ProductCatalog.Models;
 using ProductCatalog.Repositories.Interfaces;
 using ProductCatalog.Services.Interfaces;
 using ProductCatalog.ViewModels.Categories;
@@ -12,16 +14,17 @@ namespace ProductCatalog.Services.Implementations;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
-    private readonly ICacheService _cacheService;
+    private readonly RedisCacheService _redisCashservice;
+
     private readonly ILogger<CategoryService> _logger;
 
     public CategoryService(
+        RedisCacheService redisCacheService,
         ICategoryRepository repository,
-        ICacheService cacheService,
         ILogger<CategoryService> logger)
     {
+        _redisCashservice = redisCacheService;
         _repository = repository;
-        _cacheService = cacheService;
         _logger = logger;
     }
 
@@ -30,7 +33,7 @@ public class CategoryService : ICategoryService
         var stopwatch = Stopwatch.StartNew();
 
         var cached =
-            await _cacheService.GetAsync<List<CategoryViewModel>>(CacheKeys.Categories);
+            await _redisCashservice.GetAsync<List<CategoryViewModel>>(CacheKeys.Categories);
 
         if (cached is not null)
         {
@@ -49,7 +52,7 @@ public class CategoryService : ICategoryService
             .Select(x => x.ToViewModel())
             .ToList();
 
-        await _cacheService.SetAsync(
+        await _redisCashservice.SetAsync(
             CacheKeys.Categories,
             result,
             TimeSpan.FromMinutes(5));
@@ -70,8 +73,8 @@ public class CategoryService : ICategoryService
         await _repository.AddAsync(category);
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Categories);
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Categories);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
     }
 
     public async Task<EditCategoryViewModel?> GetForEditAsync(int id)
@@ -92,8 +95,8 @@ public class CategoryService : ICategoryService
 
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Categories);
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Categories);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
     }
 
     public async Task<CategoryDetailsViewModel?> GetDetailsAsync(int id)
@@ -111,8 +114,8 @@ public class CategoryService : ICategoryService
         await _repository.DeleteAsync(id);
         await _repository.SaveChangesAsync();
 
-        await _cacheService.RemoveAsync(CacheKeys.Categories);
-        await _cacheService.RemoveAsync(CacheKeys.Products);
+        await _redisCashservice.RemoveAsync(CacheKeys.Categories);
+        await _redisCashservice.RemoveAsync(CacheKeys.Products);
         return true;
     }
 }
