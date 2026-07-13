@@ -1,17 +1,9 @@
-﻿using ProductCatalog.Models;
+﻿using ProductCatalog.Models.Dtos;
 
 namespace ProductCatalog.Repositories.Interfaces
 {
     public interface IDashboardRepository
     {
-        Task<int> GetProductsCountAsync();
-
-        Task<int> GetCategoriesCountAsync();
-
-        Task<int> GetTotalStockAsync();
-
-        Task<List<Category>> GetCategoriesWithProductsAsync();
-
-        Task<List<Product>> GetTopProductsAsync(int count = 5);
+        Task<DashboardDataDto> GetDashboardDataAsync(int topProductsCount = 5);
     }
 }

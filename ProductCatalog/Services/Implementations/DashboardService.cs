@@ -15,34 +15,30 @@ namespace ProductCatalog.Services.Implementations
 
         public async Task<DashboardViewModel> GetDashboardAsync()
         {
-            var totalProducts = await _dashboardRepository.GetProductsCountAsync();
-            var totalCategories = await _dashboardRepository.GetCategoriesCountAsync();
-            var totalStock = await _dashboardRepository.GetTotalStockAsync();
-            var categories = await _dashboardRepository.GetCategoriesWithProductsAsync();
-            var topProducts = await _dashboardRepository.GetTopProductsAsync();
+            var data = await _dashboardRepository.GetDashboardDataAsync();
 
             return new DashboardViewModel
             {
-                TotalProducts = totalProducts,
-                TotalCategories = totalCategories,
-                TotalStock = totalStock,
-                AverageStock = totalProducts == 0
+                TotalProducts = data.Summary.TotalProducts,
+                TotalCategories = data.Summary.TotalCategories,
+                TotalStock = data.Summary.TotalStock,
+                AverageStock = data.Summary.TotalProducts == 0
                     ? 0
-                    : Math.Round((double)totalStock / totalProducts, 1),
+                    : Math.Round((double)data.Summary.TotalStock / data.Summary.TotalProducts, 1),
 
-                ProductsPerCategory = categories
+                ProductsPerCategory = data.ProductsPerCategory
                     .Select(c => new CategoryChartViewModel
                     {
-                        CategoryName = c.Name,
-                        ProductCount = c.Products.Count
+                        CategoryName = c.CategoryName,
+                        ProductCount = c.ProductCount
                     })
                     .ToList(),
 
-                TopProducts = topProducts
+                TopProducts = data.TopProducts
                     .Select(p => new TopProductViewModel
                     {
-                        ProductName = p.Name,
-                        CategoryName = p.Category?.Name ?? "-",
+                        ProductName = p.ProductName,
+                        CategoryName = p.CategoryName,
                         Stock = p.Stock
                     })
                     .ToList()
