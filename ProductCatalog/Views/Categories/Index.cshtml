@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Categories";
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 }
 
 @if (TempData["Success"] is not null)
@@ -176,11 +177,10 @@ else
                                       asp-route-id="@item.Id"
                                       method="post">
 
-                                    <button class="btn btn-light text-danger"
-                                            onclick="return confirm('Delete this category?')">
-
+                                    <button type="button"
+                                            class="btn btn-light text-danger"
+                                            onclick="confirmDelete(this)">
                                         <i class="bi bi-trash"></i>
-
                                     </button>
 
                                 </form>
@@ -198,6 +198,21 @@ else
 
     </div>
 }
-
-    </div>
-}
+<script>
+    function confirmDelete(button) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this category!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            button.closest("form").submit();
+        }
+    });
+    }
+</script>

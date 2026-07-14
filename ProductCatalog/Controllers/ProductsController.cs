@@ -77,6 +77,8 @@ public class ProductsController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         await _productService.DeleteAsync(id);
+        TempData["Success"] = "Product deleted successfully.";
+
         return RedirectToAction(nameof(Index));
     }
 
